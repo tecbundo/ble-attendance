@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const path = require("path");
+const config = require("./dbcreds")
 const crypto = require("crypto");
 
 
@@ -12,7 +13,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Connect to the database before starting the application server.
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(config.dburl);
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function(){
@@ -21,7 +22,7 @@ db.once("open", function(){
 });
 
 // Initialize the app.
-var server = app.listen(process.env.PORT || 8080, function () {
+var server = app.listen(process.env.PORT || 80, function () {
 var port = server.address().port;
   console.log("App now running on port", port);
 });
